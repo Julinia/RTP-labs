@@ -1,17 +1,20 @@
-defmodule Lab1.Supervisor do
-  use Supervisor
+defmodule AppSupervisor do
+  use DynamicSupervisor
 
-  def start_link do
-    Supervisor.start_link(__MODULE__, [])
+  def start(_arg) do
+    DynamicSupervisor.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
-  def init(_) do
-    children = [
-        worker(Lab1.Server, [])
-    ]
-
-    supervise(children, strategy: :one_for_one)
+  def init(:ok) do
+    DynamicSupervisor.init(strategy: :one_for_one)
   end
 
+  def init_worker(path) do
+    spec = {Worker, {path}}
+    DynamicSupervisor.start_child(__MODULE__, spec)
+  end
 
+  def stop_worker(worker_pid) do
+    DynamicSupervisor.terminate_child(__MODULE__, worker_pid)
+  end
 end
