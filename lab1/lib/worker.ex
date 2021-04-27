@@ -30,17 +30,22 @@ defmodule Worker do
       {:ok, tweet} = Poison.decode(tweet)
 
       score = get_words(tweet)
-      |> get_score()
+        |> get_score()
 
-      IO.puts(score)
+      {tweet, score}
     else
-      IO.inspect(tweet)
+      {nil, nil}
     end
   end
 
   @impl true
   def handle_cast({:process, tweet}, _) do
-    compute_score(tweet)
+    {decoded_tweet, final_score} = compute_score(tweet)
+    
+    if decoded_tweet and final_score do
+      Database.save(Map.put(decoded_tweet, "score", final_score))
+    end
+
     {:noreply, tweet}
   end
 end

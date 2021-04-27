@@ -13,6 +13,10 @@ defmodule Lab1.Application do
         start: {Manager, :start, []}
       },
       %{
+        id: Database,
+        start: {Database, :start, []}
+      },
+      %{
         id: Connection1,
         start: {Connection, :start_connection, [url1]}
       },
