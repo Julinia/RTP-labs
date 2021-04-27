@@ -41,8 +41,8 @@ defmodule Worker do
   @impl true
   def handle_cast({:process, tweet}, _) do
     {decoded_tweet, final_score} = compute_score(tweet)
-    
-    if decoded_tweet and final_score do
+
+    if final_score do
       Database.save(Map.put(decoded_tweet, "score", final_score))
     end
 

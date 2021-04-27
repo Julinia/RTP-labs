@@ -9,12 +9,12 @@ defmodule Lab1.Application do
   
     children = [
       %{
-        id: Manager,
-        start: {Manager, :start, []}
-      },
-      %{
         id: Database,
         start: {Database, :start, []}
+      },
+      %{
+        id: Manager,
+        start: {Manager, :start, []}
       },
       %{
         id: Connection1,
