@@ -4,14 +4,10 @@ defmodule Lab1.Application do
 
   @impl true
   def start(_type, _args) do
-    url1 = "localhost:4000/tweets/1"
-    url2 = "localhost:4000/tweets/2"
+    url1 = "server:4000/tweets/1"
+    url2 = "server:4000/tweets/2"
   
     children = [
-      %{
-        id: Database,
-        start: {Database, :start, []}
-      },
       %{
         id: Manager,
         start: {Manager, :start, []}

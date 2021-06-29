@@ -2,7 +2,9 @@ defmodule Worker do
   use GenServer
 
   def start(index) do
-    GenServer.start_link(__MODULE__, :ok, name: {:global, index})
+    {:ok, pid} = Client.start
+
+    GenServer.start_link(__MODULE__, %{tweets: %{}, tcp: pid}, name: __MODULE__)
   end
 
   def process(tweet) do
@@ -46,6 +48,8 @@ defmodule Worker do
       Database.save(Map.put(decoded_tweet, "score", final_score))
     end
 
-    {:noreply, tweet}
+    Client.send_message(state.tcp, "PUBLISH tweeter " <> Poison.encode!(tweet) <> "\n")
+
+    {:noreply, %{tweet: tweet, tcp: state.tcp}}
   end
 end

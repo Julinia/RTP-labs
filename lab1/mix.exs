@@ -21,8 +21,7 @@ defmodule Lab1.MixProject do
   defp deps do
     [
       {:eventsource_ex, "~> 0.0.2"},
-      {:poison, "~> 3.1"},
-      {:mongodb, "~> 0.5.1"}
+      {:poison, "~> 3.1"}
     ]
   end
 end
