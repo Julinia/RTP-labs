@@ -1,0 +1,20 @@
+version: "3.6"
+services:
+  server:
+    image: alexburlacu/rtp-server:faf18x
+    ports:
+      - 4000:4000
+
+  broker:
+    build:
+      context: broker
+    ports:
+      - 2356:2356
+
+  analyzer:
+    build:
+      context: analyzer
+
+    depends_on:
+      - server
+      - broker
